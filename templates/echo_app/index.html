@@ -1,47 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Echo Server</title>
-    <style>
-        body {
-            font-family: sans-serif;
-        }
-        #container {
-            width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
+    <title>掲示板</title>
 </head>
 <body>
-    <div id="container">
-        <h1>Echo Server</h1>
-        <form method="post" action="{% url 'echo' %}">
-            {% csrf_token %}
-            <input type="text" name="message" placeholder="メッセージを入力してください">
-            <button type="submit">送信</button>
-        </form>
-        {% if message %}
-            <p><strong>受信メッセージ:</strong> {{ message }}</p>
-        {% endif %}
-    </div>
+    <h1>掲示板</h1>
+    <a href="{% url 'create_post' %}">新規投稿</a>
+    <ul>
+        {% for post in posts %}
+            <li>
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.content }}</p>
+                <p>投稿日: {{ post.created_at }}</p>
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>

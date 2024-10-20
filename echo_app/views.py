@@ -1,11 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import Post
+from .forms import PostForm  # 後でフォームを作成
 
 def index(request):
-    return render(request, 'echo_app/index.html')
+    posts = Post.objects.all().order_by('-created_at')
+    context = {'posts': posts}
+    return render(request, 'echo_app/index.html', context)
 
-def echo(request):
+def create_post(request):
     if request.method == 'POST':
-        message = request.POST.get('message', '')
-        return render(request, 'echo_app/index.html', {'message': message})
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')  # index ページにリダイレクト
     else:
-        return render(request, 'echo_app/index.html')
+        form = PostForm()
+    return render(request, 'echo_app/create_post.html', {'form': form})

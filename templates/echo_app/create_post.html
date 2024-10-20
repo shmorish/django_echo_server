@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新規投稿</title>
+</head>
+<body>
+    <h1>新規投稿</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">投稿</button>
+    </form>
+</body>
+</html>
